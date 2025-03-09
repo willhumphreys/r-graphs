@@ -11,8 +11,8 @@ print("Starting years.r")
 
 args <- commandArgs(trailingOnly = TRUE)
 
-input = args[1]
-output = args[2]
+input <- args[1]
+output <- args[2]
 
 parseDataForAllYears <- function() {
     data <- fread(input)

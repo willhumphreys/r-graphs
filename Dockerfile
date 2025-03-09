@@ -24,7 +24,7 @@ RUN Rscript -e "install.packages('automagic', repos='http://cran.us.r-project.or
 
 # Install additional specific packages that might not be detected
 RUN Rscript -e "install.packages('data.table', type = 'source', repos = 'http://Rdatatable.github.io/data.table')"
-RUN Rscript -e "install.packages(c('ggthemes', 'scales', 'viridis', 'RColorBrewer'), repos='http://cran.us.r-project.org')"
+RUN Rscript -e "install.packages(c('ggthemes', 'scales', 'viridis', 'RColorBrewer'), repos='http://cran.us.r-project.org', 'plyr')"
 
 # Copy shell script
 COPY runStopsRScript.sh /usr/local/bin/runStopsRScript.sh
