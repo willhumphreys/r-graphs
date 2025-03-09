@@ -33,4 +33,6 @@ _renv*
 # Operating system files
 .DS_Store
 Thumbs.db
+
 *.lzo
+results
