@@ -22,11 +22,28 @@ jobs:
         with:
           r-version: 'release'
 
-      - name: Install R Dependencies for Validation
+      - name: Detect and Install Required R Dependencies
         run: |
-          Rscript -e "install.packages('tidyverse', repos='http://cran.us.r-project.org')"
+          # Install automagic package
+          Rscript -e "install.packages('automagic', repos='http://cran.us.r-project.org')"
+          
+          # Use automagic to detect dependencies in all R scripts
+          echo "Detecting required packages..."
+          REQUIRED_PACKAGES=$(Rscript -e "library(automagic); \
+                               scripts <- list.files('src', pattern = '\\\\.r$', full.names = TRUE); \
+                               deps <- unique(unlist(lapply(scripts, function(x) automagic::get_dependent_packages(x)))); \
+                               cat(paste(deps, collapse=' '))")
+          
+          echo "Found required packages: $REQUIRED_PACKAGES"
+          
+          # Install detected packages
+          if [ ! -z "$REQUIRED_PACKAGES" ]; then
+            Rscript -e "install.packages(c($REQUIRED_PACKAGES), repos='http://cran.us.r-project.org')"
+          fi
+          
+          # Install additional packages that might be needed but not detected
           Rscript -e "install.packages('data.table', repos='http://cran.us.r-project.org')"
-          Rscript -e "install.packages(c('reshape', 'plyr', 'ggthemes', 'scales', 'viridis', 'RColorBrewer'), repos='http://cran.us.r-project.org')"
+          Rscript -e "install.packages(c('ggthemes', 'scales', 'viridis', 'RColorBrewer'), repos='http://cran.us.r-project.org')"
 
       - name: Validate R Scripts
         run: |
