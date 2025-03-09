@@ -39,6 +39,6 @@ simpleBarPlot <- function(name, data, x, y) {
     print(sprintf("Saved %s", filePath))
 }
 
-profitColumns <- c('averagenetprofit', 'appt', 'profitperrisk', 'winnerLoserCount', 'totalprofit')
+profitColumns <- c('averagenetprofit', 'appt', 'profit_per_risk_ratio', 'winnerLoserCount', 'totalprofit')
 
 lapply(profitColumns, function(x) simpleBarPlot('byYear', data, 'year', x))

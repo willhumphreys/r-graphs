@@ -29,14 +29,14 @@ summary <- function(data, input, output) {
     maxProfit <- max(data$totalprofit)
     minProfit <- min(data$totalprofit)
     maxYears <- max(data$winningYears)
-    maxProfitPerRisk <- max(data$profitperrisk)
+    maxprofit_per_risk_ratio <- max(data$profit_per_risk_ratio)
     maxAppt <- max(data$appt)
     maxAverageNetProfit <- max(data$averagenetprofit)
     maxWinningPercentage <- max(data$winningPercentage)
 
     fileConn <- file(file.path(output), "wt")
-    writeLines(c(sprintf("Winners: %d\nLosers: %d\nAverage Profit: %#.2f\nMax Profit: %d\nMin Profit: %d\nMax Years: %d\nMaxProfitPerRisk: %#.2f\nMaxAppt: %#.4f\nMaxAverageNetProfit: %#.2f\nMaxWinningPercentage: %#.2f\n",
-    winners, losers, averageProfit, maxProfit, minProfit, maxYears, maxProfitPerRisk, maxAppt, maxAverageNetProfit, maxWinningPercentage)),
+    writeLines(c(sprintf("Winners: %d\nLosers: %d\nAverage Profit: %#.2f\nMax Profit: %d\nMin Profit: %d\nMax Years: %d\nMaxprofit_per_risk_ratio: %#.2f\nMaxAppt: %#.4f\nMaxAverageNetProfit: %#.2f\nMaxWinningPercentage: %#.2f\n",
+    winners, losers, averageProfit, maxProfit, minProfit, maxYears, maxprofit_per_risk_ratio, maxAppt, maxAverageNetProfit, maxWinningPercentage)),
     con = fileConn, sep = "\n")
 
     close(fileConn)

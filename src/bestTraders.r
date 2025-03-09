@@ -109,8 +109,8 @@ generateForSymbol <- function(input, symbol, outputDir) {
         }
     }
 
-    data$profitColumn <- data$profitperrisk
-    generateGraphs(data, "profitperrisk", outputDir)
+    data$profitColumn <- data$profit_per_risk_ratio
+    generateGraphs(data, "profit_per_risk_ratio", outputDir)
     data$profitColumn <- data$totalprofit
     generateGraphs(data, "totalprofit", outputDir)
     data$profitColumn <- data$appt

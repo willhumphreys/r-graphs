@@ -54,7 +54,7 @@ generateHeatMaps <- function(profitColumn) {
     ggsave(file = graphOutput)
 }
 
-profitColumns <- c('averagenetprofit', 'appt', 'profitperrisk', 'winnerLoserCount', 'totalprofit')
+profitColumns <- c('averagenetprofit', 'appt', 'profit_per_risk_ratio', 'winnerLoserCount', 'totalprofit')
 
 lapply(profitColumns, function(x) generateHeatMaps(x))
 

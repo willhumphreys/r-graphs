@@ -93,7 +93,7 @@ simpleBarPlot <- function(name, data, fillColor, x, y) {
     ggsave(file = file.path(graph.output, paste(name, y , '.png', sep = "")))
 }
 
-profitFields <- c('averagenetprofit', 'profitperrisk', 'totalprofit')
+profitFields <- c('averagenetprofit', 'profit_per_risk_ratio', 'totalprofit')
 
 lapply(profitFields, function(y) simpleBarPlot(name = 'dayofweek', data = aggregate.by.dayofweek, fill = '#FF9999', x = 'dayofweek', y))
 lapply(profitFields, function(y) simpleBarPlot(name = 'hourofday', data = aggregate.by.hourofday, fill = '#b099ff', x = 'hourofday', y))

@@ -61,9 +61,9 @@ generateHeatMaps <- function(data, output) {
 
         generateHeatMapGraph(dataset, 'totalprofit', 'dayofweek', 'hourofday')
 
-        dataset <- setDF(limit_bigger_data[, lapply(.SD, mean), by = .(dayofweek, hourofday), .SDcols = c("profitperrisk", "averagenetprofit")])
+        dataset <- setDF(limit_bigger_data[, lapply(.SD, mean), by = .(dayofweek, hourofday), .SDcols = c("profit_per_risk_ratio", "averagenetprofit")])
 
-        generateHeatMapGraph(dataset, 'profitperrisk', 'dayofweek', 'hourofday')
+        generateHeatMapGraph(dataset, 'profit_per_risk_ratio', 'dayofweek', 'hourofday')
         generateHeatMapGraph(dataset, 'averagenetprofit', 'dayofweek', 'hourofday')
     }
     parseDataForAllYears <- function() {
@@ -113,9 +113,9 @@ generateHeatMaps <- function(data, output) {
 
             generateHeatMapGraph(dataset, 'totalprofit', 'dayofweek', 'hourofday')
 
-            dataset <- setDF(limit_bigger_data[, lapply(.SD, mean), by = .(dayofweek, hourofday), .SDcols = c("profitperrisk", "averagenetprofit")])
+            dataset <- setDF(limit_bigger_data[, lapply(.SD, mean), by = .(dayofweek, hourofday), .SDcols = c("profit_per_risk_ratio", "averagenetprofit")])
 
-            generateHeatMapGraph(dataset, 'profitperrisk', 'dayofweek', 'hourofday')
+            generateHeatMapGraph(dataset, 'profit_per_risk_ratio', 'dayofweek', 'hourofday')
             generateHeatMapGraph(dataset, 'averagenetprofit', 'dayofweek', 'hourofday')
         }
 
