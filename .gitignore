@@ -18,10 +18,11 @@
 
 # Packages and dependencies
 .Renviron
-.Rprofile
 packrat/
-renv/
-renv.lock
+renv/library/
+renv/staging/
+renv/python/
+
 _renv*
 
 # Temporary files and logs
