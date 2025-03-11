@@ -20,36 +20,17 @@ jobs:
       - name: Set up R for Validation
         uses: r-lib/actions/setup-r@v2
         with:
-          r-version: 'release'
+          r-version: 'renv'
 
-      - name: Detect and Install Required R Dependencies
-        run: |
-          # Install automagic package
-          Rscript -e "install.packages('automagic', repos='http://cran.us.r-project.org')"
-          
-          # Use automagic to detect dependencies in all R scripts
-          echo "Detecting required packages..."
-          REQUIRED_PACKAGES=$(Rscript -e "library(automagic); \
-                               scripts <- list.files('src', pattern = '\\\\.r$', full.names = TRUE); \
-                               deps <- unique(unlist(lapply(scripts, function(x) automagic::get_dependent_packages(x)))); \
-                               cat(paste(deps, collapse=' '))")
-          
-          echo "Found required packages: $REQUIRED_PACKAGES"
-          
-          # Install detected packages
-          if [ ! -z "$REQUIRED_PACKAGES" ]; then
-            Rscript -e "install.packages(c($REQUIRED_PACKAGES), repos='http://cran.us.r-project.org')"
-          fi
-          
-          # Install additional packages that might be needed but not detected
-          Rscript -e "install.packages('data.table', repos='http://cran.us.r-project.org')"
-          Rscript -e "install.packages(c('ggthemes', 'scales', 'viridis', 'RColorBrewer'), repos='http://cran.us.r-project.org')"
+      - name: Restore R Package Dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
 
+
+      # (Optional) Validate R Scripts (adjust as needed)
       - name: Validate R Scripts
         run: |
           for script in src/*.r; do
             echo "Checking syntax for $script"
-            # Parse the R script to check for syntax errors without executing
             Rscript -e "tryCatch(parse('$script'), error = function(e) {cat('Syntax error in $script:\n'); cat(e$message, '\n'); quit(status = 1)})"
           done
           echo "All R scripts passed syntax validation"
