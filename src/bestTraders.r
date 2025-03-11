@@ -117,6 +117,10 @@ generateForSymbol <- function(input, symbol, outputDir) {
     generateGraphs(data, "appt", outputDir)
     data$profitColumn <- data$averagenetprofit
     generateGraphs(data, "averagenetprofit", outputDir)
+
+    generateGraphs(data, "endurance_rank", outputDir)
+    generateGraphs(data, "pain_tolerance_rank", outputDir)
+    generateGraphs(data, "trend_reversal_rank", outputDir)
     # data$profitColumn <- data$winningPercentage
     # generateGraphs(data, "winningPercentage", outputDir)
 }
