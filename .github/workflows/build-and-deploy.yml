@@ -22,8 +22,17 @@ jobs:
         with:
           r-version: 'renv'
 
-      - name: Restore R Package Dependencies
-        uses: r-lib/actions/setup-r-dependencies@v2
+      - name: Cache renv packages
+        uses: actions/cache@v4
+        with:
+          path: renv/cache
+          key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
+          restore-keys: ${{ runner.os }}-renv-
+
+      - name: Restore renv snapshot
+        run: |
+          Rscript -e 'install.packages("renv")'
+          Rscript -e 'renv::restore()'
 
 
       # (Optional) Validate R Scripts (adjust as needed)
