@@ -1,30 +1,38 @@
-FROM amazonlinux:2
+FROM rocker/r-ver:4.4.0
 
 LABEL maintainer="WillHumphreys"
 
-# Install amazon-linux-extras and other required packages
-RUN yum install -y amazon-linux-extras aws-cli lzop
-RUN yum -y install libcurl-devel gcc-gfortran python
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    libxml2-dev \
+    awscli \
+    lzop \
+    git \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install R using amazon-linux-extras
-RUN amazon-linux-extras install R4 -y
+# Create app directory
+WORKDIR /app
 
-# Copy R scripts first so we can analyze them
-COPY src/stops.r stops.r
-COPY src/years.r years.r
-COPY src/bestTraders.r bestTraders.r
+# Configure renv to use a local cache directory for faster rebuilds
+ENV RENV_PATHS_CACHE=/renv_cache
 
-# Install automagic and detect required packages
-RUN Rscript -e "install.packages('automagic', repos='http://cran.us.r-project.org')" && \
-    Rscript -e "library(automagic); \
-                scripts <- c('stops.r', 'years.r', 'bestTraders.r'); \
-                deps <- unique(unlist(lapply(scripts, function(x) automagic::get_dependent_packages(x)))); \
-                cat('Required packages:', paste(deps, collapse=', '), '\n'); \
-                install.packages(deps, repos='http://cran.us.r-project.org')"
+# Create a volume for the renv cache
+VOLUME /renv_cache
 
-# Install additional specific packages that might not be detected
-RUN Rscript -e "install.packages('data.table', type = 'source', repos = 'http://Rdatatable.github.io/data.table')"
-RUN Rscript -e "install.packages(c('ggthemes', 'scales', 'viridis', 'RColorBrewer', 'plyr', 'Matrix', 'reshape'), repos='http://cran.us.r-project.org')"
+# Copy renv files first
+COPY renv.lock .Rprofile ./
+COPY renv/activate.R renv/activate.R
+
+# Install renv
+RUN Rscript -e "install.packages('renv', repos='https://cloud.r-project.org/')"
+
+# Copy the src directory
+COPY src/ src/
+
+# Restore packages using renv
+RUN Rscript -e "renv::restore(confirm=FALSE)"
 
 # Copy shell script
 COPY runStopsRScript.sh /usr/local/bin/runStopsRScript.sh
