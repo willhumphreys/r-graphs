@@ -28,8 +28,10 @@ COPY renv/activate.R renv/activate.R
 # Install renv
 RUN Rscript -e "install.packages('renv', repos='https://cloud.r-project.org/')"
 
-# Copy the src directory
-COPY src/ src/
+# Copy R scripts first so we can analyze them
+COPY src/stops.r stops.r
+COPY src/years.r years.r
+COPY src/bestTraders.r bestTraders.r
 
 # Restore packages using renv
 RUN Rscript -e "renv::restore(confirm=FALSE)"
