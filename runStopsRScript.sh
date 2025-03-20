@@ -2,15 +2,15 @@
 set -e
 
 # Use environment variables with defaults as fallback
-S3_SOURCE_BUCKET=${SOURCE_BUCKET:-"mochi-trades-aggregated"}
-S3_GRAPHS_BUCKET=${GRAPHS_BUCKET:-"mochi-graphs"}
+S3_MOCHI_AGGREGATION_BUCKET=${MOCHI_AGGREGATION_BUCKET:-"mochi-trades-aggregated"}
+S3_MOCHI_GRAPHS_BUCKET=${MOCHI_GRAPHS_BUCKET:-"mochi-graphs"}
 
 find . -name \*.lzo -delete
 find . -name \*.csv -delete
 echo "Copy from S3 with ${1}"
 dest="$(echo $1 | awk -F/ '{print $NF}')"
 echo "Destination is ${dest}"
-aws s3 cp s3://${S3_SOURCE_BUCKET}/$1 ${dest}
+aws s3 cp s3://${S3_MOCHI_AGGREGATION_BUCKET}/$1 ${dest}
 echo "File copied from S3. Decompressing"
 lzop -d ${dest}
 file=$(basename "${dest}" .lzo)
@@ -22,4 +22,4 @@ Rscript $2 ${file} results
 #echo "Execute years.r"
 #Rscript years.r ${file} results
 #echo "Sync graphs to S3"
-aws s3 sync results s3://${S3_GRAPHS_BUCKET}/$1
+aws s3 sync results s3://${S3_MOCHI_GRAPHS_BUCKET}/$1
