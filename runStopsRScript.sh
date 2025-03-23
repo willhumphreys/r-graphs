@@ -2,8 +2,8 @@
 set -e
 
 # Use environment variables with defaults as fallback
-S3_MOCHI_AGGREGATION_BUCKET=${MOCHI_AGGREGATION_BUCKET:-"mochi-trades-aggregated"}
-S3_MOCHI_GRAPHS_BUCKET=${MOCHI_GRAPHS_BUCKET:-"mochi-graphs"}
+S3_MOCHI_AGGREGATION_BUCKET=${MOCHI_AGGREGATION_BUCKET:-"mochi-prod-aggregated-trades"}
+S3_MOCHI_GRAPHS_BUCKET=${MOCHI_GRAPHS_BUCKET:-"mochi-prod-summary-graphs"}
 
 find . -name \*.lzo -delete
 find . -name \*.csv -delete
