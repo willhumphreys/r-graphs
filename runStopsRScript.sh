@@ -17,6 +17,9 @@ file=$(basename "${dest}" .lzo)
 echo "Submitting '$file' to R script"
 mkdir -p results/data
 echo "Execute " $2
+if [ -n "$3" ]; then
+  echo "Group tag: $3"
+fi
 Rscript $2 ${file} results
 #Rscript stops.r ${file} results
 #echo "Execute years.r"
